@@ -18,4 +18,10 @@
     <string name="title_activity_view_all_streams">ViewAllStreams</string>
     <string name="nearby_pictures">Nearby Photos</string>
     <string name="more">More</string>
+    <string name="title_activity_upload">Upload</string>
+    <string name="choose_from_library">Choose From Library</string>
+    <string name="use_camera">Use Camera</string>
+    <string name="upload_hint">Add a message and/or tags</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_camera_preview">CameraPreview</string>
 </resources>
