@@ -18,7 +18,7 @@
             android:gravity="center"
             android:textSize="40sp"
             android:paddingTop="40dp"
-            android:paddingBottom = "40sp"
+            android:paddingBottom = "0dp"
             android:textColor="@color/red"
             />
 
@@ -27,7 +27,7 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center"
             android:enabled="false" />
 
@@ -38,7 +38,6 @@
             android:text="@string/view_streams"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
             android:layout_marginBottom="0dp"
             android:onClick="viewAllImages"
             />

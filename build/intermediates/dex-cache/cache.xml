@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
+        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.2/d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27/picasso-2.3.2.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881">
-        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-a34f6d9e7f47f8ea6f7ecc8c8b4212c010d5c7f1.jar" />
-    </item>
-    <item
-        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/gson-2.2.4-8acc879e44b5d87659f1dbdd32993756aa6fa538.jar" />
+        sha1="d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27">
+        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/picasso-2.3.2-b630a266bc6f8d68798080f37cb7e5ecde37bee2.jar" />
     </item>
     <item
         jar="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/jars/classes.jar"
@@ -23,11 +16,11 @@
         <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/classes-3624dbba89bda39bf5cf848dfbbdc336a1e0afaf.jar" />
     </item>
     <item
-        jar="/Users/Kaiyuan_Wang/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-a8fa6c757de8f9c75ed11f3b44b1dd3148ad4fb8.jar" />
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/gson-2.2.4-8acc879e44b5d87659f1dbdd32993756aa6fa538.jar" />
     </item>
     <item
         jar="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/jars/classes.jar"
@@ -37,11 +30,18 @@
         <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/classes-0776f5ad40274bfa07910e2637b89ba7a90a8a3b.jar" />
     </item>
     <item
-        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.2/d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27/picasso-2.3.2.jar"
+        jar="/Users/Kaiyuan_Wang/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27">
-        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/picasso-2.3.2-b630a266bc6f8d68798080f37cb7e5ecde37bee2.jar" />
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881">
+        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-a34f6d9e7f47f8ea6f7ecc8c8b4212c010d5c7f1.jar" />
+    </item>
+    <item
+        jar="/Users/Kaiyuan_Wang/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/Kaiyuan_Wang/Dropbox/Advanced_Programming_Tools/MobileConnexus/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-a8fa6c757de8f9c75ed11f3b44b1dd3148ad4fb8.jar" />
     </item>
 
 </items>

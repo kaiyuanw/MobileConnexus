@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -28,13 +29,32 @@ public class SearchPage extends ActionBarActivity {
     final ArrayList<String> image_urls = new ArrayList<String>();
     final ArrayList<String> stream_names = new ArrayList<String>();
     int display_index = 0;
+    int capacity = 8;
 //    JSONArray streamsFoundIDs;
     Context context = this;
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
-        display_index = 8;
+        userName = getIntent().getStringExtra("userName");
+        Button sign_out_btn = (Button) findViewById(R.id.sign_out_button);
+        if (userName.equals("no_user")) {
+            sign_out_btn.setText("Go Login");
+        }
+        sign_out_btn.setVisibility(View.VISIBLE);
+        sign_out_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchPage.this, LoginPage.class);
+                intent.putExtra("userName", userName);
+                if (!userName.equals("no_user"))
+                    Toast.makeText(getApplicationContext(), userName + " signed out", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
+        display_index = capacity;
         final String searchContent = getIntent().getStringExtra("search_content");
         String searchContentUrl = searchContent.replaceAll(" ", "+");
         String requestUrl = "http://miniproject-1107.appspot.com/mobile_show_result?search_keyword="+searchContentUrl;
@@ -63,7 +83,8 @@ public class SearchPage extends ActionBarActivity {
                     final ArrayList<String> display_image_urls = getMore(image_urls);
                     final ArrayList<String> display_stream_names = getMore(stream_names);
                     GridView gridview = (GridView) findViewById(R.id.gridview);
-                    gridview.setAdapter(new ImageAdapter(context, display_image_urls));
+//                    gridview.setAdapter(new ImageAdapter(context, display_image_urls));
+                    gridview.setAdapter(new SquareImageAdapter(context, display_image_urls, display_stream_names));
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View v,
@@ -71,6 +92,7 @@ public class SearchPage extends ActionBarActivity {
 
                             Intent intent= new Intent(SearchPage.this, ViewSingleStream.class);
                             intent.putExtra("position",position);
+                            intent.putExtra("userName", userName);
                             intent.putExtra("numOfMatches",stream_names.size());
                             intent.putExtra("streamName",display_stream_names.get(position));
 //                            intent.putExtra("streamID",streamIDs.get(position));
@@ -96,7 +118,7 @@ public class SearchPage extends ActionBarActivity {
 
     private ArrayList<String> getMore(ArrayList<String> arr) {
         ArrayList<String> results = new ArrayList<String>();
-        for (int i = Math.max(0, display_index - 8); i < Math.min(arr.size(), display_index); i++) {
+        for (int i = Math.max(0, display_index - capacity); i < Math.min(arr.size(), display_index); i++) {
             results.add(arr.get(i));
         }
         return results;
@@ -107,6 +129,7 @@ public class SearchPage extends ActionBarActivity {
         EditText text = (EditText)findViewById(R.id.search_content);
         String returnText = text.getText().toString();
         intent.putExtra("search_content", returnText);
+        intent.putExtra("userName", userName);
         startActivity(intent);
     }
 
@@ -114,11 +137,12 @@ public class SearchPage extends ActionBarActivity {
 //        Intent intent = new Intent(this, NearbyPhotos.class);
 //        intent.putExtra("indexes",indexes);
 //        startActivity(intent);
-        display_index += 8;
+        display_index += capacity;
         final ArrayList<String> display_image_urls = getMore(image_urls);
         final ArrayList<String> display_stream_names = getMore(stream_names);
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(context, display_image_urls));
+//        gridview.setAdapter(new ImageAdapter(context, display_image_urls));
+        gridview.setAdapter(new SquareImageAdapter(context, display_image_urls, display_stream_names));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
@@ -126,6 +150,7 @@ public class SearchPage extends ActionBarActivity {
 
                 Intent intent= new Intent(SearchPage.this, ViewSingleStream.class);
                 intent.putExtra("position",position);
+                intent.putExtra("userName", userName);
                 intent.putExtra("numOfMatches",stream_names.size());
                 intent.putExtra("streamName",display_stream_names.get(position));
 //                            intent.putExtra("streamID",streamIDs.get(position));

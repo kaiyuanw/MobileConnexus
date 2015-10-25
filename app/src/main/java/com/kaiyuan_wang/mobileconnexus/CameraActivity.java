@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,18 +26,36 @@ public class CameraActivity extends Activity {
     private CameraPreview mPreview;
     private String imageFile;
     Context context = this;
+    private String userName;
+    private boolean previewIsFrozen;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_preview);
-
+        userName = getIntent().getStringExtra("userName");
+        Button sign_out_btn = (Button) findViewById(R.id.sign_out_button);
+        if (userName.equals("no_user")) {
+            sign_out_btn.setText("Go Login");
+        }
+        sign_out_btn.setVisibility(View.VISIBLE);
+        sign_out_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, LoginPage.class);
+                intent.putExtra("userName", userName);
+                if (!userName.equals("no_user"))
+                    Toast.makeText(getApplicationContext(), userName + " signed out", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
         // Create an instance of Camera
-        mCamera = getCameraInstance();
+        mCamera = getFrontCameraInstance();
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        previewIsFrozen = false;
         final Button use_this = (Button)findViewById(R.id.use_this);
         // Add a listener to the Capture button
         Button captureButton = (Button) findViewById(R.id.button_capture);
@@ -45,8 +64,19 @@ public class CameraActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         // get an image from the camera
-                        mCamera.takePicture(null, null, mPicture);
-                        use_this.setClickable(true);
+                        if (!previewIsFrozen) {
+                            mCamera.takePicture(null, null, mPicture);
+                            use_this.setClickable(true);
+                            previewIsFrozen = true;
+                        }
+                        else {
+                            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                            deleteDirectory(mediaStorageDir);
+                            mCamera.startPreview();
+                            use_this.setClickable(false);
+                            previewIsFrozen = false;
+                        }
                     }
                 }
         );
@@ -63,8 +93,26 @@ public class CameraActivity extends Activity {
         return c; // returns null if camera is unavailable
     }
 
-    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+    private Camera getFrontCameraInstance() {
+        int cameraCount = 0;
+        Camera cam = null;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();
+        for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+            Camera.getCameraInfo(camIdx, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                try {
+                    cam = Camera.open(camIdx);
+                } catch (RuntimeException e) {
+                    Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                }
+            }
+        }
 
+        return cam;
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             System.out.println("CALL BACK BEING CALLED");
@@ -116,7 +164,7 @@ public class CameraActivity extends Activity {
             }
         }
 
-        // Create a media file name
+        // Create a media file url
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE){
@@ -130,6 +178,23 @@ public class CameraActivity extends Activity {
         }
 
         return mediaFile;
+    }
+
+    private static boolean deleteDirectory(File dir) {
+        if(dir.exists()) {
+            File[] files = dir.listFiles();
+            if (files != null) {
+                for(int i = 0; i < files.length; i++) {
+                    if (files[i].isDirectory()) {
+                        deleteDirectory(files[i]);
+                    } else {
+                        System.out.println("Delete file " + files[i].getName());
+                        files[i].delete();
+                    }
+                }
+            }
+        }
+        return dir.delete();
     }
 
     @Override
@@ -172,6 +237,7 @@ public class CameraActivity extends Activity {
         returnIntent.putExtra("streamName",streamName);
         returnIntent.putExtra("streamID",streamID);
         returnIntent.putExtra("imageFile",imageFile);
+        returnIntent.putExtra("userName", userName);
         setResult(RESULT_OK,returnIntent);
         finish();
 

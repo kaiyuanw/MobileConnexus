@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Subscribed Streams"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:textColor="@color/red"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:gravity="center"
         android:textSize="18sp" />
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,5 +36,15 @@
         android:numColumns="4"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
+
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="Sign Out"
+        android:visibility="invisible" />
 
 </LinearLayout>

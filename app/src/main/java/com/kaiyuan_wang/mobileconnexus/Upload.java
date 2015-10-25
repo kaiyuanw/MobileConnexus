@@ -43,10 +43,28 @@ public class Upload extends ActionBarActivity implements
     private LocationClient mLocationClient;
     Context context = this;
     private static final int PICK_IMAGE = 1;
+    private static final int TAKE_IMAGE = 2;
+    private String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+        userName = getIntent().getStringExtra("userName");
+        Button sign_out_btn = (Button) findViewById(R.id.sign_out_button);
+        if (userName.equals("no_user")) {
+            sign_out_btn.setText("Go Login");
+        }
+        sign_out_btn.setVisibility(View.VISIBLE);
+        sign_out_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Upload.this, LoginPage.class);
+                intent.putExtra("userName", userName);
+                if (!userName.equals("no_user"))
+                    Toast.makeText(getApplicationContext(), userName + " signed out", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
 
         if (servicesConnected()) {
             System.out.println("servicesConnected");
@@ -58,7 +76,8 @@ public class Upload extends ActionBarActivity implements
     public void createCameraPreview(View view){
         if (checkCameraHardware(this)==true){
             Intent intent = new Intent(this,CameraActivity.class);
-            startActivityForResult(intent, 2);
+            intent.putExtra("userName", userName);
+            startActivityForResult(intent, TAKE_IMAGE);
         }
     }
 
@@ -68,17 +87,20 @@ public class Upload extends ActionBarActivity implements
             Uri _uri = data.getData();
 
             //User had pick an image.
-            Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+            String[] filePathColumn = { android.provider.MediaStore.Images.ImageColumns.DATA };
+            Cursor cursor = getContentResolver().query(_uri, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             //Link to the image
-            final String imageFilePath = cursor.getString(0);
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            final String imageFilePath = cursor.getString(columnIndex);
             cursor.close();
-            System.out.println(imageFilePath);
+
+            System.out.println("-----------" + imageFilePath);
             ImageView imgView = (ImageView)findViewById(R.id.thumbnail);
             final Bitmap bitmapImage = BitmapFactory.decodeFile(imageFilePath);
-
             imgView.setImageBitmap(bitmapImage);
+
             final Button uploadButton = (Button)findViewById(R.id.upload_to_server);
             uploadButton.setClickable(true);
 
@@ -86,7 +108,7 @@ public class Upload extends ActionBarActivity implements
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EditText text = (EditText)findViewById(R.id.upload_message);
+                            EditText text = (EditText) findViewById(R.id.upload_message);
                             String photoCaption = text.getText().toString();
                             //System.out.println(photoCaption);
 
@@ -97,14 +119,14 @@ public class Upload extends ActionBarActivity implements
                             String encodedImageStr = encodedImage.toString();
                             System.out.println(encodedImageStr);
 
-                            String location=mLocationClient.getLastLocation().getLatitude()+"_"+mLocationClient.getLastLocation().getLongitude();
+                            String location = mLocationClient.getLastLocation().getLatitude() + "_" + mLocationClient.getLastLocation().getLongitude();
 
                             getUploadURL(b, photoCaption, location);
                         }
                     }
             );
         }
-        else if (requestCode == 2){
+        else if (requestCode == TAKE_IMAGE){
 
             if (resultCode!=0) {
                 final String imageFilePath = data.getStringExtra("imageFile");
@@ -113,13 +135,11 @@ public class Upload extends ActionBarActivity implements
 
                 Bitmap bitmapImage = BitmapFactory.decodeFile(imageFilePath);
                 Matrix matrix = new Matrix();
+                matrix.preScale(-1,1);
                 matrix.postRotate(90);
                 final Bitmap rotated = Bitmap.createBitmap(bitmapImage, 0, 0, bitmapImage.getWidth(), bitmapImage.getHeight(), matrix, true);
 
                 imgView.setImageBitmap(rotated);
-
-
-
 
                 final Button uploadButton = (Button) findViewById(R.id.upload_to_server);
                 uploadButton.setClickable(true);
@@ -154,8 +174,8 @@ public class Upload extends ActionBarActivity implements
     private void getUploadURL(final byte[] encodedImage, final String photoCaption, final String location){
         //System.out.println(location);
         AsyncHttpClient httpClient = new AsyncHttpClient();
-        String streamID = getIntent().getStringExtra("streamID");
-        String request_url="http://connexusminiproject.appspot.com/andGetUploadURL/"+streamID;
+        String stream_name = getIntent().getStringExtra("streamName");
+        String request_url="http://miniproject-1107.appspot.com/mobile_get_upload_url/"+stream_name;
         System.out.println(request_url);
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
             String upload_url;
@@ -185,7 +205,6 @@ public class Upload extends ActionBarActivity implements
         RequestParams params = new RequestParams();
         //params.put("encodedImage",encodedImage);
         params.put("file",new ByteArrayInputStream(encodedImage));
-        System.out.println(new ByteArrayInputStream(encodedImage));
         params.put("photoCaption",photoCaption);
         params.put("location",location);
         AsyncHttpClient client = new AsyncHttpClient();
@@ -196,9 +215,10 @@ public class Upload extends ActionBarActivity implements
                 Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
                 Intent intent= new Intent(Upload.this, ViewSingleStream.class);
                 String streamName = getIntent().getStringExtra("streamName");
-                String streamID = getIntent().getStringExtra("streamID");
+//                String streamID = getIntent().getStringExtra("streamID");
                 intent.putExtra("streamName",streamName);
-                intent.putExtra("streamID",streamID);
+//                intent.putExtra("streamID",streamID);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
             @Override
@@ -252,17 +272,18 @@ public class Upload extends ActionBarActivity implements
         String streamName = getIntent().getStringExtra("streamName");
         String streamID = getIntent().getStringExtra("streamID");
         TextView responseText = (TextView) this.findViewById(R.id.stream_name_upload);
-        responseText.setText(streamName);
+        responseText.setText("Stream: " + streamName);
 
         Button chooseFromLibraryButton = (Button) findViewById(R.id.choose_from_library);
         chooseFromLibraryButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                        intent.setType("image/*");
+//                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        galleryIntent.putExtra("userName", userName);
+                        startActivityForResult(galleryIntent, PICK_IMAGE);
                     }
                 }
         );

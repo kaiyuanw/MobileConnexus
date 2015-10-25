@@ -41,9 +41,9 @@
             android:layout_height="wrap_content"
             android:columnWidth="90dp"
             android:gravity="center"
-            android:horizontalSpacing="10dp"
             android:numColumns="4"
             android:stretchMode="columnWidth"
+            android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp" />
 
         <LinearLayout
@@ -73,9 +73,21 @@
             android:text="@string/search" />
 
         <Button
+            android:id="@+id/subscribed_streams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="viewSubscribedStreams"
-            android:text="@string/my_subscribed_streams" />
+            android:text="@string/my_subscribed_streams"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/sign_out_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Sign Out"
+            android:visibility="invisible" />
     </LinearLayout>
 </ScrollView>
