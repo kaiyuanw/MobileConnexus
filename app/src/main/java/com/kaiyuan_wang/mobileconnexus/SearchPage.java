@@ -57,7 +57,7 @@ public class SearchPage extends ActionBarActivity {
         display_index = capacity;
         final String searchContent = getIntent().getStringExtra("search_content");
         String searchContentUrl = searchContent.replaceAll(" ", "+");
-        String requestUrl = "http://miniproject-1107.appspot.com/mobile_show_result?search_keyword="+searchContentUrl;
+        String requestUrl = "http://connexus-kaiyuanw.appspot.com/mobile_show_result?search_keyword="+searchContentUrl;
         final TextView responseText = (TextView) this.findViewById(R.id.search_result_message);
         //responseText.setText(new String(streamName));
 

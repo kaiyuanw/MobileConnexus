@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class ViewSingleStream extends ActionBarActivity {
     private String TAG  = "ViewSingleStream";
     Context context = this;
-    public static String REQUEST_ViewSingleStream = "http://miniproject-1107.appspot.com/mobile_stream_name";
+    public static String REQUEST_ViewSingleStream = "http://connexus-kaiyuanw.appspot.com/mobile_stream_name";
     private AsyncHttpClient httpClient = new AsyncHttpClient();
     final ArrayList<String> image_urls = new ArrayList<String>();
     final ArrayList<String> photo_captions = new ArrayList<String>();
@@ -64,7 +64,7 @@ public class ViewSingleStream extends ActionBarActivity {
         responseText.setText(new String(streamName));
 
         final String request_url = REQUEST_ViewSingleStream + "=" + streamName + "?" + userName;
-
+        System.out.println("---------------------" + request_url);
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
@@ -78,7 +78,7 @@ public class ViewSingleStream extends ActionBarActivity {
                         upload_btn.setVisibility(View.VISIBLE);
                     }
 
-                    for(int i=0;i<jPhotos.length();i++) {
+                    for (int i = 0; i < jPhotos.length(); i++) {
                         String photo = jPhotos.getString(i);
                         JSONObject jPhoto = new JSONObject(photo);
                         image_urls.add(jPhoto.getString("image_url"));
@@ -119,8 +119,7 @@ public class ViewSingleStream extends ActionBarActivity {
                             imageDialog.show();
                         }
                     });
-                }
-                catch(JSONException j){
+                } catch (JSONException j) {
                     System.out.println("JSON Error");
                 }
 

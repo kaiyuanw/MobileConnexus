@@ -175,7 +175,7 @@ public class Upload extends ActionBarActivity implements
         //System.out.println(location);
         AsyncHttpClient httpClient = new AsyncHttpClient();
         String stream_name = getIntent().getStringExtra("streamName");
-        String request_url="http://miniproject-1107.appspot.com/mobile_get_upload_url/"+stream_name;
+        String request_url="http://connexus-kaiyuanw.appspot.com/mobile_get_upload_url/"+stream_name;
         System.out.println(request_url);
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
             String upload_url;

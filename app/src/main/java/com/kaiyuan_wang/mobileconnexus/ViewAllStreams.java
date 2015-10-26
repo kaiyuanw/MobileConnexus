@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ViewAllStreams extends ActionBarActivity {
-    public static String REQUEST_ViewAllStreams = "http://miniproject-1107.appspot.com/mobile_view_all_stream";
+    public static String REQUEST_ViewAllStreams = "http://connexus-kaiyuanw.appspot.com/mobile_view_all_stream";
     private AsyncHttpClient httpClient = new AsyncHttpClient();
     private String TAG = "ViewAllStreams";
     Context context = this;

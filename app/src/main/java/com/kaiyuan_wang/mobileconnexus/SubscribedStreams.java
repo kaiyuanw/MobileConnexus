@@ -48,7 +48,7 @@ public class SubscribedStreams extends ActionBarActivity {
             }
         });
 
-        String REQUEST_ViewAllStreams = "http://miniproject-1107.appspot.com/mobile_subscribed_streams/"+userName;
+        String REQUEST_ViewAllStreams = "http://connexus-kaiyuanw.appspot.com/mobile_subscribed_streams/"+userName;
         System.out.println("-----------" + REQUEST_ViewAllStreams);
         httpClient.get(REQUEST_ViewAllStreams, new AsyncHttpResponseHandler() {
             @Override

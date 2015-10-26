@@ -167,7 +167,7 @@ public class NearbyPhotos extends FragmentActivity implements
         //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 //        indexes = getIntent().getStringExtra("indexes");
         String location=mLocationClient.getLastLocation().getLatitude()+"_"+mLocationClient.getLastLocation().getLongitude();
-        final String request_url = "http://miniproject-1107.appspot.com/mobile_nearby_photos/"+location;
+        final String request_url = "http://connexus-kaiyuanw.appspot.com/mobile_nearby_photos/"+location;
 
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
             @Override
